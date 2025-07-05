@@ -1,0 +1,9 @@
+{
+  "username": "standard_user",
+  "invalid_username": "stand4rd_user",
+  "password": "secret_sauce",
+  "invalid_password": "secr3t_sauce",
+  "login_button_text": "Login",
+  "header_login_page": "Swag Labs",
+  "error_login_message": "Epic sadface: Username and password do not match any user in this service"
+}

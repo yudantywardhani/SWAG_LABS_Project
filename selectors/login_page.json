@@ -1,0 +1,10 @@
+{
+  "username_field": { "by": "id", "value": "user-name" },
+  "password_field": { "by": "id", "value": "password" },
+  "login_button":  { "by": "id", "value": "login-button" },
+  "login_list_username":  { "by": "id", "value": "login_credentials" },
+  "login_list_password":  { "by": "class_name", "value": "login_password" },
+  "wrong_username_icon":  { "by": "xpath", "value": "//*[@id='user-name']/../*[2]" },
+  "wrong_password_icon":  { "by": "xpath", "value": "//*[@id='password']/../*[2]" },
+  "error_icon":  { "by": "class_name", "value": "error-button" }
+}

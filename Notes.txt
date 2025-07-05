@@ -1,0 +1,18 @@
+### Selector for xpath ###
+
+/..
+Tanda .. digunakan untuk naik satu level ke elemen induk dari elemen yang ditemukan sebelumnya. 
+Jadi, ini akan memilih elemen induk dari elemen yang memiliki atribut name "NEXT" atau "LANJUT".
+
+/*/*/*/*/*[1]
+Ini adalah serangkaian langkah untuk turn ke elemen yang lebih dalam. 
+Setiap /* berarti memilih semua elemen anak dari elemen yang ada pada tingkat tersebut. 
+Bagian ini melibatkan lima langkah /* , yang berarti pencarian bergerak lebih dalam dalam struktur pohon XML/HTML.
+
+/*/*[2]
+Setelah mencapai tingkat kelima, ekspresi ini turn lagi dua tingkat dan memili elemen kedua pada tingkat tersebut. 
+Dengan kata lain, memilih elemen anak kedua dari elemen induk pada level tersebut.
+
+example:
+        "wrong_username_icon":  { "by": "xpath", "value": "//*[@id='user-name']/../*[2]" }
+

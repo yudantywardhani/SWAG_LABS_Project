@@ -15,7 +15,8 @@ Scenario: Verify login page
 @login_success
 Scenario: Successful login
     Given user open SWAG_LAB web
-    When user fill "login_page/username_field" with "username"
+    When user waiting for 5 seconds
+    And user fill "login_page/username_field" with "username"
     And user fill "login_page/password_field" with "password"
     And user click "login_page/login_button"
     And user waiting for 5 seconds

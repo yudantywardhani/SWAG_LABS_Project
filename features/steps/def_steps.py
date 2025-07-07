@@ -16,28 +16,25 @@ from selenium.webdriver.chrome.options import Options
 # Example   :   Given user open SWAG_LAB web
 #
 ############################################################################################################
-@given('user open {web_key} web')
-def step_open_web(context, web_key):
-    url_map = {
-        "SWAG_LAB": "https://www.saucedemo.com",
-        "BOOK_STORE": "https://demoqa.com/books"
-    }
-
-    if web_key not in url_map:
-        raise Exception(f"No URL defined for '{web_key}'")
-    
-    url = url_map[web_key]
-
-    context.project = web_key
-    context.translations = load_translations(web_key)
+@given('user open SWAG_LAB web')
+def step_open_web(context):    
+    url = "https://www.saucedemo.com"
 
     options = Options()
-    options.add_experimental_option("detach", True)
+    # options.add_experimental_option("detach", True) # use for not automatically close web
+
+    # to disable the Chrome password manager pop-up
+    options.add_experimental_option("prefs", {
+        "credentials_enable_service": False,
+        "profile.password_manager_enabled": False
+    })
+    options.add_argument("--disable-save-password-bubble")
+    options.add_argument("--incognito") # will be open incognito window
+
     # Launch browser and open URL
     context.driver = webdriver.Chrome(options=options)
     context.driver.maximize_window()
     context.driver.get(url)
-
 
 
 ############################################################################################################
@@ -48,11 +45,11 @@ def step_open_web(context, web_key):
 ############################################################################################################
 @when('user fill "{selector_path}" with "{value}"')
 def step_fill_input(context, selector_path, value):
-    by, locator = load_selectors(context.project, selector_path)
+    by, locator = load_selectors(selector_path)
 
     # Load translations only once
     if not hasattr(context, "translations"):
-        context.translations = load_translations(context.project)
+        context.translations = load_translations()
     
     # Use translation value if available
     if value in context.translations:
@@ -72,7 +69,7 @@ def step_fill_input(context, selector_path, value):
 ############################################################################################################
 @when('user click "{selector_path}"')
 def step_click_element(context, selector_path):
-    by, locator = load_selectors(context.project, selector_path)
+    by, locator = load_selectors(selector_path)
 
     element = WebDriverWait(context.driver, 10).until(EC.element_to_be_clickable((by, locator)))
     element.click()
@@ -87,7 +84,7 @@ def step_click_element(context, selector_path):
 ############################################################################################################
 @then('user verify element "{selector_path}" is displayed')
 def step_verify_element_displayed(context, selector_path):
-    by, locator = load_selectors(context.project, selector_path)
+    by, locator = load_selectors(selector_path)
 
     try:
         element = WebDriverWait(context.driver, 10).until(
@@ -108,7 +105,7 @@ def step_verify_element_displayed(context, selector_path):
 def step_verify_text_displayed(context, translation_key):
     # Make sure translations are loaded
     if not hasattr(context, "translations"):
-        context.translations = load_translations(context.project)
+        context.translations = load_translations()
     
     if translation_key not in context.translations:
         raise KeyError(f"Translation key '{translation_key}' not found in translations.json")

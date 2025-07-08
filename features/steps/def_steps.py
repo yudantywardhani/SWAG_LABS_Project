@@ -113,7 +113,7 @@ def step_verify_text_displayed(context, translation_key):
     expected_text = context.translations[translation_key]
 
     try:
-        WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((By.XPATH, f"//*[contains(text(), '{expected_text}')]"))
+        WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((By.XPATH, f"//*[contains(normalize-space(.), '{expected_text}')]"))
         )
     except:
         raise AssertionError(f"Text '{expected_text}' is not displayed on the page.")
@@ -129,3 +129,21 @@ def step_verify_text_displayed(context, translation_key):
 @when('user waiting for {seconds:d} seconds')
 def step_wait_seconds(context, seconds):
     time.sleep(seconds)
+
+############################################################################################################
+#
+# Function  :   To scroll down or up the page
+# Example   :   And scroll down website page
+#
+############################################################################################################
+@when('scroll {arrow} website page {x:d} times')
+def step_wait_seconds(context, arrow, x):
+    if arrow not in ["up","down"]:
+        raise ValueError("Arrow must be 'up' or 'down'")
+
+    for _ in range (x):
+        if arrow == "down":
+            context.driver.execute_script("window.scrollBy(0, 500);")
+        else:
+            context.driver.execute_script("window.scrollBy(0, -500);")
+        time.sleep(0.5)

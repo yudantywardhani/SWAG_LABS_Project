@@ -8,15 +8,16 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.utils.helpers import load_selectors, load_translations
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import Select
 
 
 ############################################################################################################
 #
 # Function  :   Open Website
-# Example   :   Given user open SWAG_LAB web
+# Example   :   Given open SWAG_LAB web
 #
 ############################################################################################################
-@given('user open SWAG_LAB web')
+@given('open SWAG_LAB web')
 def step_open_web(context):    
     url = "https://www.saucedemo.com"
 
@@ -40,10 +41,10 @@ def step_open_web(context):
 ############################################################################################################
 #
 # Function  :   Fill input to field
-# Example   :   And user fill "[selector_path]" with "[translation_path]"
+# Example   :   And fill "[selector_path]" with "[translation_path]"
 #
 ############################################################################################################
-@when('user fill "{selector_path}" with "{value}"')
+@when('fill "{selector_path}" with "{value}"')
 def step_fill_input(context, selector_path, value):
     by, locator = load_selectors(selector_path)
 
@@ -64,10 +65,10 @@ def step_fill_input(context, selector_path, value):
 ############################################################################################################
 #
 # Function  :   Click element
-# Example   :   And user click "[selector_path]"
+# Example   :   And click "[selector_path]"
 #
 ############################################################################################################
-@when('user click "{selector_path}"')
+@when('click "{selector_path}"')
 def step_click_element(context, selector_path):
     by, locator = load_selectors(selector_path)
 
@@ -78,11 +79,33 @@ def step_click_element(context, selector_path):
 
 ############################################################################################################
 #
-# Function  :   Verify element is displayed
-# Example   :   And user verify element "[selector_path]" is displayed
+# Function  :   Click element by text
+# Example   :   And click "[selector_path]" with text "[translation_path]"
 #
 ############################################################################################################
-@then('user verify element "{selector_path}" is displayed')
+@when('click element with text "{translation_key}"')
+def step_click_element_text(context, translation_key):
+    if not hasattr(context, "translations"):
+        context.translations = load_translations()
+    
+    if translation_key not in context.translations:
+        raise KeyError(f"Translation key '{translation_key}' not found in translations.json")
+
+    text = context.translations[translation_key]
+    text = f"//*[text()='{text}']"
+
+    element = WebDriverWait(context.driver, 10).until(EC.element_to_be_clickable((By.XPATH, text)))
+    element.click()
+    
+
+
+############################################################################################################
+#
+# Function  :   Verify element is displayed
+# Example   :   And verify element "[selector_path]" is displayed
+#
+############################################################################################################
+@then('verify element "{selector_path}" is displayed')
 def step_verify_element_displayed(context, selector_path):
     by, locator = load_selectors(selector_path)
 
@@ -98,10 +121,10 @@ def step_verify_element_displayed(context, selector_path):
 ############################################################################################################
 #
 # Function  :   Verify text is displayed
-# Example   :   And user verify text "[translation_path]" is displayed
+# Example   :   And verify text "[translation_path]" is displayed
 #
 ############################################################################################################
-@then('user verify text "{translation_key}" is displayed')
+@then('verify text "{translation_key}" is displayed')
 def step_verify_text_displayed(context, translation_key):
     # Make sure translations are loaded
     if not hasattr(context, "translations"):
@@ -123,12 +146,14 @@ def step_verify_text_displayed(context, translation_key):
 ############################################################################################################
 #
 # Function  :   for waiting in seconds
-# Example   :   And user waiting for 5 seconds
+# Example   :   And waiting for 5 seconds
 #
 ############################################################################################################
-@when('user waiting for {seconds:d} seconds')
+@when('waiting for {seconds:d} seconds')
 def step_wait_seconds(context, seconds):
     time.sleep(seconds)
+
+
 
 ############################################################################################################
 #
@@ -147,3 +172,67 @@ def step_wait_seconds(context, arrow, x):
         else:
             context.driver.execute_script("window.scrollBy(0, -500);")
         time.sleep(0.5)
+
+
+
+############################################################################################################
+#
+# Function  :   Verify an element has a correct text
+# Example   :   And verify element "[selector_path]" is equal to translation "[translation_path]"
+#
+############################################################################################################
+@then('verify element "{selector_path}" is equal to translation "{translation_key}"')
+def step_verify_element_has_text(context, selector_path, translation_key):
+
+    if not hasattr(context, "translations"):
+        context.translations = load_translations()
+    
+    if translation_key not in context.translations:
+        raise KeyError(f"Translation key '{translation_key}' not founc in translations.json")
+    
+    expected_text = context.translations[translation_key]
+    by, locator = load_selectors(selector_path)
+
+    try:
+        element = WebDriverWait(context.driver, 10). until(EC.visibility_of_element_located((by, locator))
+        )
+        actual_text = element.text.strip()
+    except:
+        raise AssertionError(f"Element '{selector_path}' couldn't be located or is not visible")
+
+    if actual_text != expected_text:
+        raise AssertionError(f"Expected text '{expected_text}' not equals with actual text '{actual_text}'")    
+
+
+
+############################################################################################################
+#
+# Function  :   Select one of dropdown list by text
+# Example   :   And select [translation_path] in dropdown [selector_path]
+#
+############################################################################################################
+@when('select "{translation_key}" in dropdown "{selector_path}"')
+def step_select_dropdown(context, translation_key, selector_path):
+    by, locator = load_selectors(selector_path)
+
+    translations = load_translations()
+    text = translations[translation_key]
+
+    try:
+        dropdown_element = WebDriverWait(context.driver, 10).until(EC.element_to_be_clickable((by, locator))
+        )
+        select = Select(dropdown_element)
+        
+        found = False
+        for option in select.options:
+            if option.text == text:
+                option.click()
+                found = True
+                break
+        
+        if not found:
+            raise AssertionError(f"Option '{text}' not found in dropdown")
+        
+
+    except Exception as e:
+        raise AssertionError(f"Could not select '{text}' from dropdown '{selector_path}'\nError: {e}")

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Just run specific tag directly
-python3 -m behave -t "@login_failed_invalid_password" --no-skipped
+python3 -m behave -t "@dashboard_filter" --no-skipped
 
 ## Note ##
 

@@ -4,12 +4,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from features.utils.helpers import *
 
-@given('user login to SWAG_LAB with "{account}" account')
+@given('login to SWAG_LAB with "{account}" account')
 def step_user_login_with_account(context, account):
 
     context.execute_steps('''
-        Given user open SWAG_LAB web
-        When user waiting for 5 seconds
+        Given open SWAG_LAB web
+        When waiting for 5 seconds
     ''')
 
     username, password = load_test_data(account)
@@ -25,7 +25,7 @@ def step_user_login_with_account(context, account):
     time.sleep(3)
 
     context.execute_steps('''
-        When user click "login_page/login_button"
-        And user waiting for 5 seconds
+        When click "login_page/login_button"
+        And waiting for 5 seconds
     ''')
 

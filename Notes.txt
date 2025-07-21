@@ -16,3 +16,13 @@ Dengan kata lain, memilih elemen anak kedua dari elemen induk pada level tersebu
 example:
         "wrong_username_icon":  { "by": "xpath", "value": "//*[@id='user-name']/../*[2]" }
 
+################################################
+
+for this script:
+        ((By.XPATH, f"//*[contains(normalize-space(.), '{expected_text}')]"))
+is using for the text contains newline (\n) and extra space
+
+################################################
+
+select = Select(dropdown_element)
+Wraps the dropdown element in Selenium's Select class, allowing you to interact with <select> elements and their <option> children.

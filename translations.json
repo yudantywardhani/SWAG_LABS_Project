@@ -10,5 +10,17 @@
   "header_text_home": "Swag Labs",
   "title_text_product": "Products",
   "filter_text": "Name (A to Z)",
-  "footer_text": "© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy"
+  "btn_add_to_cart": "Add to cart",
+  "footer_text": "© 2025 Sauce Labs. All Rights Reserved. Terms of Service | Privacy Policy",
+
+  "filter_a_to_z": "Name (A to Z)",
+  "filter_z_to_a": "Name (Z to A)",
+  "filter_price_low_to_high": "Price (low to high)",
+  "filter_price_high_to_low": "Price (high to low)",
+
+  "backpack_product": "Sauce Labs Backpack",
+  "tshirt_product": "Test.allTheThings() T-Shirt (Red)",
+  "onesie_product": "Sauce Labs Onesie",
+  "jacket_product": "Sauce Labs Fleece Jacket"
+
 }

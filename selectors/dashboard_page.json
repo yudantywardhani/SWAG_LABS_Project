@@ -47,5 +47,11 @@
   "linkedin_button":  { "by": "class_name", "value": "social_linkedin" },
 
   "first_order_product":  { "by": "xpath", "value": "//*[@id='inventory_container']/*[1]/*[1]/*[2]/*[1]/*[1]/*[1]" },
-  "dropdown_sort_filter":  { "by": "css_selector", "value": "select.product_sort_container" }
+  "dropdown_sort_filter":  { "by": "css_selector", "value": "select.product_sort_container" },
+
+  "sidebar_cross_btn":  { "by": "id", "value": "react-burger-cross-btn" },
+  "sidebar_all_items_btn":  { "by": "id", "value": "inventory_sidebar_link" },
+  "sidebar_about_btn":  { "by": "id", "value": "about_sidebar_link" },
+  "sidebar_logout_btn":  { "by": "id", "value": "logout_sidebar_link" },
+  "sidebar_reset_app_btn":  { "by": "id", "value": "reset_sidebar_link" }
 }

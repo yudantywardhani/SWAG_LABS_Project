@@ -1,4 +1,4 @@
-@login
+@dashboard
 Feature: Dashboard page
 
 @dashboard_page
@@ -91,3 +91,25 @@ Scenario: Verify filter product in dashboard page
     And click element with text "filter_price_high_to_low"
     And waiting for 3 seconds
     Then verify element "dashboard_page/first_order_product" is equal to translation "jacket_product"
+
+@sidebar_section
+Scenario: Verify sidebar section
+    Given login to SWAG_LAB with "standard_user" account
+    When waiting for 5 seconds
+    And click "dashboard_page/menu_button"
+    And waiting for 5 seconds
+    Then verify element "dashboard_page/sidebar_cross_btn" is displayed
+    And verify element "dashboard_page/sidebar_all_items_btn" is equal to translation "sidebar_all_items_btn"
+    And verify element "dashboard_page/sidebar_about_btn" is equal to translation "sidebar_about_btn"
+    And verify element "dashboard_page/sidebar_logout_btn" is equal to translation "sidebar_logout_btn"
+    And verify element "dashboard_page/sidebar_reset_app_btn" is equal to translation "sidebar_reset_app_btn"
+
+    When click "dashboard_page/sidebar_cross_btn"
+    And waiting for 3 seconds
+    Then verify element "dashboard_page/sidebar_cross_btn" is not displayed
+
+    When waiting for 3 seconds
+    And click "dashboard_page/menu_button"
+    And click "dashboard_page/sidebar_about_btn"
+    And waiting for 3 seconds
+    Then verify success direct to link "saucelabs_web"

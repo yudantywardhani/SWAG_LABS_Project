@@ -102,20 +102,24 @@ def step_click_element_text(context, translation_key):
 ############################################################################################################
 #
 # Function  :   Verify element is displayed
-# Example   :   And verify element "[selector_path]" is displayed
+# Example 1 :   And verify element "[selector_path]" is displayed
+# Example 2 :   And verify element "[selector_path]" is not displayed
 #
 ############################################################################################################
-@then('verify element "{selector_path}" is displayed')
-def step_verify_element_displayed(context, selector_path):
+@then('verify element "{selector_path}" {condition} displayed')
+def step_verify_element_displayed(context, selector_path, condition):
     by, locator = load_selectors(selector_path)
 
-    try:
-        element = WebDriverWait(context.driver, 10).until(
-            EC.visibility_of_element_located((by, locator))
-        )
-    except:
-        raise AssertionError(f"Element '{selector_path}' is not displayed on the page.")
+    elements = context.driver.find_elements(by, locator)
+    is_visible = any(e.is_displayed() for e in elements)
 
+    if condition == "is":
+        assert is_visible, f"Element {selector_path} is displayed on screen"
+    elif condition == "is not":
+        assert not is_visible, f"Element {selector_path} is not displayed on screen"
+    else:
+        raise ValueError(f"Invalid condition '{condition}', expected 'is' or 'is not'.")
+        
 
 
 ############################################################################################################
@@ -236,3 +240,18 @@ def step_select_dropdown(context, translation_key, selector_path):
 
     except Exception as e:
         raise AssertionError(f"Could not select '{text}' from dropdown '{selector_path}'\nError: {e}")
+
+############################################################################################################
+#
+# Function  :   Verify the user success direct to destination url link
+# Example   :   Then verify success direct to link "[translation_key]"
+#
+############################################################################################################
+@Then('verify success direct to link "{translation_key}"')
+def direct_to_link(context, translation_key):
+    translations = load_translations()
+
+    expected_link = translations[translation_key]
+    actual_link = context.driver.current_url
+
+    assert expected_link in actual_link, f"direct to '{expected_link}'"

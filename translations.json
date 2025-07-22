@@ -21,6 +21,12 @@
   "backpack_product": "Sauce Labs Backpack",
   "tshirt_product": "Test.allTheThings() T-Shirt (Red)",
   "onesie_product": "Sauce Labs Onesie",
-  "jacket_product": "Sauce Labs Fleece Jacket"
+  "jacket_product": "Sauce Labs Fleece Jacket",
+
+  "sidebar_all_items_btn": "All Items",
+  "sidebar_about_btn": "About",
+  "sidebar_logout_btn": "Logout",
+  "sidebar_reset_app_btn": "Reset App State",
+  "saucelabs_web": "https://saucelabs.com/"
 
 }

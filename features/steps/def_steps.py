@@ -198,7 +198,7 @@ def step_verify_element_has_text(context, selector_path, translation_key):
     by, locator = load_selectors(selector_path)
 
     try:
-        element = WebDriverWait(context.driver, 10). until(EC.visibility_of_element_located((by, locator))
+        element = WebDriverWait(context.driver, 5). until(EC.visibility_of_element_located((by, locator))
         )
         actual_text = element.text.strip()
     except:
@@ -255,3 +255,30 @@ def direct_to_link(context, translation_key):
     actual_link = context.driver.current_url
 
     assert expected_link in actual_link, f"direct to '{expected_link}'"
+
+############################################################################################################
+#
+# Function  :   To save the value or text of an element
+# Example   :   And save value of the element "[selector_path]"
+#
+############################################################################################################
+@When('save {condition} of the element "{selector_path}"')
+def step_element_value(context, condition, selector_path):
+    by, locator = load_selectors(selector_path)
+
+    element = WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((by, locator)))
+    text = element.text.strip()
+
+    if not hasattr(context, "saved_values"):
+        context.saved_values = {}
+    
+    if condition == "value":
+        try:
+            context.saved_values[locator] = int(text.replace(",",""))
+        except ValueError:
+            raise ValueError(f"Cannot convert text '{text}' to integer from element '{locator}'")
+    elif condition == "text":
+        context.saved_values[locator] = text
+    else:
+        raise ValueError(f"Unsupported condition '{condition}'. Use 'value' or 'text'.")
+

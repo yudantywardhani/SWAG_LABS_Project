@@ -3,6 +3,7 @@
   "menu_button":  { "by": "id", "value": "react-burger-menu-btn" },
   "header_text_home":  { "by": "xpath", "value": "//*[@id='menu_button_container']/../*[2]/*[1]" },
   "cart_button":  { "by": "id", "value": "shopping_cart_container" },
+  "shopping_cart_bedge":  { "by": "xpath", "value": "//*[@id='shopping_cart_container']/*[1]/*[1]" },
   "title_text_product":  { "by": "xpath", "value": "//*[@id='header_container']/*[2]/*[1]" },
   "filter_container":  { "by": "class_name", "value": "product_sort_container" },
 
@@ -11,12 +12,14 @@
   "desc_product_1":  { "by": "xpath", "value": "//*[@id='item_4_title_link']/../*[2]" },
   "price_product_1":  { "by": "xpath", "value": "//*[@id='item_4_title_link']/../../*[2]/*[1]" },
   "btn_add_to_cart_product_1":  { "by": "id", "value": "add-to-cart-sauce-labs-backpack" },
+  "btn_remove_product_1":  { "by": "id", "value": "remove-sauce-labs-backpack" },
 
   "img_product_2":  { "by": "id", "value": "item_0_img_link" },
   "title_product_2":  { "by": "id", "value": "item_0_title_link" },
   "desc_product_2":  { "by": "xpath", "value": "//*[@id='item_0_title_link']/../*[2]" },
   "price_product_2":  { "by": "xpath", "value": "//*[@id='item_0_title_link']/../../*[2]/*[1]" },
   "btn_add_to_cart_product_2":  { "by": "id", "value": "add-to-cart-sauce-labs-bike-light" },
+  "btn_remove_product_2":  { "by": "id", "value": "remove-sauce-labs-bike-light" },
 
   "img_product_3":  { "by": "id", "value": "item_1_img_link" },
   "title_product_3":  { "by": "id", "value": "item_1_title_link" },

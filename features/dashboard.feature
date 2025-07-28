@@ -95,8 +95,7 @@ Scenario: Verify filter product in dashboard page
 @sidebar_section
 Scenario: Verify sidebar section
     Given login to SWAG_LAB with "standard_user" account
-    When waiting for 5 seconds
-    And click "dashboard_page/menu_button"
+    When click "dashboard_page/menu_button"
     And waiting for 5 seconds
     Then verify element "dashboard_page/sidebar_cross_btn" is displayed
     And verify element "dashboard_page/sidebar_all_items_btn" is equal to translation "sidebar_all_items_btn"
@@ -108,8 +107,28 @@ Scenario: Verify sidebar section
     And waiting for 3 seconds
     Then verify element "dashboard_page/sidebar_cross_btn" is not displayed
 
-    When waiting for 3 seconds
-    And click "dashboard_page/menu_button"
+    When click "dashboard_page/menu_button"
     And click "dashboard_page/sidebar_about_btn"
     And waiting for 3 seconds
     Then verify success direct to link "saucelabs_web"
+
+    When goes back to previous page
+    And click "dashboard_page/menu_button"
+    And click "dashboard_page/sidebar_logout_btn"
+    And waiting for 3 seconds
+    Then verify element "login_page/login_button" is displayed
+
+@add_product_to_cart
+Scenario: Verify user success added prodcut from dashboard to cart
+    Given login to SWAG_LAB with "standard_user" account
+    When waiting for 3 seconds
+
+    Then verify element "dashboard_page/shopping_cart_bedge" is not displayed
+    When click "dashboard_page/btn_add_to_cart_product_1"
+    And waiting for 3 seconds
+    Then verify element "dashboard_page/shopping_cart_bedge" is displayed
+    And verify element "dashboard_page/btn_remove_product_1" is displayed
+
+    When save value of the element "dashboard_page/shopping_cart_bedge"
+    And click "dashboard_page/btn_add_to_cart_product_2"
+    Then verify element "dashboard_page/btn_remove_product_2" is displayed

@@ -27,6 +27,20 @@
   "sidebar_about_btn": "About",
   "sidebar_logout_btn": "Logout",
   "sidebar_reset_app_btn": "Reset App State",
-  "saucelabs_web": "https://saucelabs.com/"
+  "saucelabs_web": "https://saucelabs.com/",
+
+  "title_text_cart": "Your Cart",
+  "qty_label": "QTY",
+  "desc_label": "Description",
+  "continue_shopping_button": "Continue Shopping",
+  "checkout_button": "Checkout",
+
+  "title_text_checkout": "Checkout: Your Information",
+  "first_name_field_checkout": "First Name",
+  "last_name_field_checkout": "Last Name",
+  "zip_field_checkout": "Zip/Postal Code",
+  "cancel_btn_checkout": "Cancel",
+  "continue_btn_checkout": "Continue"
+
 
 }

@@ -241,6 +241,8 @@ def step_select_dropdown(context, translation_key, selector_path):
     except Exception as e:
         raise AssertionError(f"Could not select '{text}' from dropdown '{selector_path}'\nError: {e}")
 
+
+
 ############################################################################################################
 #
 # Function  :   Verify the user success direct to destination url link
@@ -256,6 +258,8 @@ def direct_to_link(context, translation_key):
 
     assert expected_link in actual_link, f"direct to '{expected_link}'"
 
+
+
 ############################################################################################################
 #
 # Function  :   To save the value or text of an element
@@ -270,15 +274,60 @@ def step_element_value(context, condition, selector_path):
     text = element.text.strip()
 
     if not hasattr(context, "saved_values"):
-        context.saved_values = {}
+        context.saved_values = []
     
     if condition == "value":
         try:
-            context.saved_values[locator] = int(text.replace(",",""))
+            value = int(text.replace(",",""))
         except ValueError:
             raise ValueError(f"Cannot convert text '{text}' to integer from element '{locator}'")
     elif condition == "text":
-        context.saved_values[locator] = text
+        value = text
     else:
         raise ValueError(f"Unsupported condition '{condition}'. Use 'value' or 'text'.")
 
+    context.saved_values.append(value)
+
+
+############################################################################################################
+#
+# Function  :   To verify saved value is equals|more than|lower than|containing current/certain value
+# Example   :   Then verify saved value 1 is equals with value ["selector_path"]
+#               Then verify saved value 1 is equals with text ["selector_path"]
+#               Then verify saved value 1 is lower than with value ["selector_path"]
+#               Then verify saved value 1 is more than with value ["selector_path"]
+#               Then verify saved value 1 is containing with text ["selector_path"]
+#
+############################################################################################################
+@Then('verify saved value {index:d} is {condition} with {type} element "{selector_path}"')
+def verify_saved_value(context, index, condition, type, selector_path):
+    by, locator = load_selectors(selector_path)
+
+    element_target = WebDriverWait(context.driver, 10).until(EC.presence_of_element_located((by, locator)))
+    target_text = element_target.text.strip()
+
+    # if not hasattr(context, "saved value"):
+    #     raise AssertionError("No saved values found")
+    
+    # Convert the target value
+    if type == "value":
+        target_value = int(target_text.replace(",",""))
+    elif type == "text":
+        target_value = target_text
+    else:
+        raise ValueError(f"Unsupported type '{type}'. Use 'value' or 'text'.")
+    
+    # Get the previously saved value
+    saved_value = context.saved_values[index - 1] #In Python, list indices start from 0
+
+    # Compare values
+    if condition == "equals to":
+        assert saved_value == target_value, f"Expected {saved_value} is equal {target_value}"
+    elif condition == "lower than":
+        assert saved_value < target_value, f"Expected {saved_value} is lower than {target_value}"
+    elif condition == "more than":
+        assert saved_value > target_value, f"Expected {saved_value} is more than {target_value}"
+    elif condition == "containing":
+        assert str(saved_value) in str(target_value), f"Expected {saved_value} is containing {target_value}"
+    else:
+        raise ValueError(f"Unsupported condition '{condition}'. Use 'equals to', 'lower than', 'more than', or 'containing'.")

@@ -1,0 +1,8 @@
+{
+  "title_text_checkout":  { "by": "xpath", "value": "//*[@id='header_container']/*[2]/*[1]" },
+  "first_name_field_checkout":  { "by": "", "value": "" },
+  "last_name_field_checkout":  { "by": "", "value": "" },
+  "zip_field_checkout":  { "by": "", "value": "" },
+  "cancel_icon_checkout":  { "by": "", "value": "" },
+  "continue_btn_checkout":  { "by": "", "value": "" }
+}

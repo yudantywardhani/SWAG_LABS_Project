@@ -118,7 +118,7 @@ Scenario: Verify sidebar section
     And waiting for 3 seconds
     Then verify element "login_page/login_button" is displayed
 
-@add_product_to_cart
+@add_and_remove_product_to_cart
 Scenario: Verify user success added prodcut from dashboard to cart
     Given login to SWAG_LAB with "standard_user" account
     When waiting for 3 seconds
@@ -131,4 +131,12 @@ Scenario: Verify user success added prodcut from dashboard to cart
 
     When save value of the element "dashboard_page/shopping_cart_bedge"
     And click "dashboard_page/btn_add_to_cart_product_2"
+    And waiting for 3 seconds
     Then verify element "dashboard_page/btn_remove_product_2" is displayed
+    And verify saved value 1 is lower than with value element "dashboard_page/shopping_cart_bedge"
+
+    When save value of the element "dashboard_page/shopping_cart_bedge"
+    And click "dashboard_page/btn_remove_product_2"
+    And waiting for 3 seconds
+    Then verify element "dashboard_page/btn_add_to_cart_product_2" is displayed
+    And verify saved value 2 is more than with value element "dashboard_page/shopping_cart_bedge"
